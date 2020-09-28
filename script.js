@@ -30,14 +30,25 @@ function renderDay() {
     }
 }
 
-$(".saveBtn").on("click", function saveEvent() {
+$(".saveBtn").click(function() {
     // Style the save button they clicked
     $(this.children).removeClass("far");
     $(this.children).addClass("fas");
     // Save the corresponding textarea's value to localStorage in the correct place
     let buttonID = parseInt($(this).attr("button-id"));
     let saveText = $("#" + buttonID).val();
-    storedEvents[buttonID-8] = saveText;
+    storedEvents[buttonID - 8] = saveText;
     // Save updated events object back to local storage
     localStorage.setItem("events", JSON.stringify(storedEvents));
+});
+
+$(".description").bind('input propertychange', function() {
+    let currentText = $(this).val();
+    let thisID = parseInt($(this).attr("id"));
+    // If the current text content of the textarea is not what's saved, toggle the corresponding save button to it's unsaved style to remind the user to save their changes
+    if (currentText != storedEvents[thisID - 8]) {
+        let buttonIcon = $("#" + thisID).next().children();
+        $(buttonIcon).removeClass("fas");
+        $(buttonIcon).addClass("far");
+    }
 });
