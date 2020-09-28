@@ -40,6 +40,9 @@ $(".saveBtn").click(function() {
     storedEvents[buttonID - 8] = saveText;
     // Save updated events object back to local storage
     localStorage.setItem("events", JSON.stringify(storedEvents));
+    // Change the icon and text color back to white to let them know it's been saved
+    $(this.children).css("color","white");
+    $("#" + buttonID).css("color","white");
 });
 
 $(".description").bind('input propertychange', function() {
@@ -48,7 +51,10 @@ $(".description").bind('input propertychange', function() {
     // If the current text content of the textarea is not what's saved, toggle the corresponding save button to it's unsaved style to remind the user to save their changes
     if (currentText != storedEvents[thisID - 8]) {
         let buttonIcon = $("#" + thisID).next().children();
-        $(buttonIcon).removeClass("fas");
-        $(buttonIcon).addClass("far");
+        buttonIcon.removeClass("fas");
+        buttonIcon.addClass("far");
+        // Turn the save button and text grey until they've saved
+        buttonIcon.css("color","grey");
+        $(this).css("color","grey");
     }
 });
