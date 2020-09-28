@@ -1,14 +1,11 @@
-getEvents();
-renderDay();
-
-function getEvents() {
-    // Collect the day's events stored in localStorage as an array , or build an empty events array & save it to localStorage
-    let storedEvents = JSON.parse(localStorage.getItem("events"));
-    if (storedEvents === null) { 
-        storedEvents = ["", "", "", "", "", "", "", "", "" ,""];
-        localStorage.setItem("events", JSON.stringify(storedEvents));
-    }
+// Collect the day's events stored in localStorage as an array , or build an empty events array & save it to localStorage
+let storedEvents = JSON.parse(localStorage.getItem("events"));
+if (storedEvents === null) { 
+    storedEvents = ["", "", "", "", "", "", "", "", "" ,""];
+    localStorage.setItem("events", JSON.stringify(storedEvents));
 }
+
+renderDay();
 
 function renderDay() {
     // Get the current time & style hour blocks as past,present, or future
@@ -20,22 +17,27 @@ function renderDay() {
     }
 
     // Add all events saved in local storage to the appropriate hour block
-    let storedEvents = JSON.parse(localStorage.getItem("events"));
+    // storedEvents = JSON.parse(localStorage.getItem("events"));
     for (let j = 8; j <= 17; j++) {
-        $("#" + j).val(storedEvents[j-8]);
-        console.log(j, storedEvents[j-8]);
+        let savedEvent = storedEvents[j-8]
+        $("#" + j).val(savedEvent);
+        // If there's an event saved, toggle the 'save' button to show that what's being shown is recorded in localStorage
+        if (savedEvent != "") {
+            let buttonIcon = $("#" + j).next().children();
+            buttonIcon.removeClass("far");
+            buttonIcon.addClass("fas");        
+        }
     }
 }
 
 $(".saveBtn").on("click", function saveEvent() {
     // Style the save button they clicked
-    $(this).addClass("fas");
-    $(this).removeClass("far");
+    $(this.children).removeClass("far");
+    $(this.children).addClass("fas");
     // Save the corresponding textarea's value to localStorage in the correct place
     let buttonID = parseInt($(this).attr("button-id"));
     let saveText = $("#" + buttonID).val();
-    let events = JSON.parse(localStorage.getItem("events"));
-    events[buttonID-8] = event;
+    storedEvents[buttonID-8] = saveText;
     // Save updated events object back to local storage
-    localStorage.setItem("events", JSON.stringify(events));
+    localStorage.setItem("events", JSON.stringify(storedEvents));
 });
