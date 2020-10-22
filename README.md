@@ -11,4 +11,7 @@ To make for a clearer user interface, unsaved event text appears grey, and the s
 <br>
 *Animated screenshot of a user changing the 8am block from "Breakfast, Shower" to "Breakfast, Shower, Animal Crossing", then clicking the save button.*
 
+## License
+[MIT License](http://opensource.org/licenses/mit-license.php)
+
 > Written with [StackEdit](https://stackedit.io/).
